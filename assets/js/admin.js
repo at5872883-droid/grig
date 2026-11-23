@@ -1,23 +1,87 @@
-/* Админка: услуги, все тексты сайта, настройки. Данные — в localStorage этого браузера. */
+/* Админка в оверлее: Ctrl+Alt+A или клик по © в подвале */
 (function () {
   var S = window.Store;
+  var sheet = document.getElementById("admin-sheet");
+  if (!sheet) return;
+
   var authBox = document.getElementById("auth");
   var panelBox = document.getElementById("panel");
   var setupBox = document.getElementById("setup");
   var loginBox = document.getElementById("login");
   var lockBtn = document.getElementById("lock-btn");
   var currentId = null;
+  var panelReady = false;
 
   function show(el, yes) { if (el) el.hidden = !yes; }
 
-  if (S.unlocked()) {
-    startPanel();
-  } else if (!S.hasPassword()) {
-    show(authBox, true); show(setupBox, true); show(loginBox, false);
-  } else {
-    show(authBox, true); show(setupBox, false); show(loginBox, true);
+  function showAuth() {
+    show(panelBox, false);
+    show(authBox, true);
+    show(lockBtn, false);
+    if (!S.hasPassword()) { show(setupBox, true); show(loginBox, false); }
+    else { show(setupBox, false); show(loginBox, true); }
   }
 
+  function startPanel() {
+    show(authBox, false);
+    show(panelBox, true);
+    show(lockBtn, true);
+    if (!panelReady) {
+      panelReady = true;
+      initPanel();
+    } else {
+      renderServices();
+      renderStats();
+    }
+  }
+
+  var Admin = {
+    open: function () {
+      if (window.UI && typeof UI.closeService === "function") UI.closeService();
+      sheet.hidden = false;
+      document.body.classList.add("modal-open");
+      requestAnimationFrame(function () { sheet.classList.add("open"); });
+      window.scrollTo({ top: 0, behavior: "instant" });
+      if (S.unlocked()) startPanel(); else showAuth();
+      var target = S.unlocked() ? document.getElementById("new-btn") : (S.hasPassword() ? document.getElementById("login-pw") : document.getElementById("setup-pw"));
+      if (target) setTimeout(function () { target.focus(); }, 120);
+    },
+    close: function () {
+      sheet.classList.remove("open");
+      setTimeout(function () {
+        sheet.hidden = true;
+        document.body.classList.remove("modal-open");
+      }, 220);
+    }
+  };
+
+  window.Admin = Admin;
+
+  /* открытие: шорткат и копирайт */
+  document.addEventListener("keydown", function (e) {
+    if (e.ctrlKey && e.altKey && (e.code === "KeyA" || String(e.key).toLowerCase() === "a")) {
+      e.preventDefault();
+      if (sheet.hidden) Admin.open(); else Admin.close();
+    }
+    if (e.key === "Escape" && !sheet.hidden) Admin.close();
+  });
+
+  document.querySelectorAll("[data-open-admin]").forEach(function (el) {
+    el.addEventListener("click", function (e) { e.preventDefault(); Admin.open(); });
+  });
+
+  sheet.addEventListener("click", function (e) {
+    if (e.target.closest("[data-close-admin]")) Admin.close();
+  });
+
+  lockBtn.addEventListener("click", function () {
+    S.lock();
+    panelReady = false;
+    Admin.close();
+    showAuth();
+  });
+
+  /* вход */
   document.getElementById("setup-form").addEventListener("submit", function (e) {
     e.preventDefault();
     var a = document.getElementById("setup-pw").value;
@@ -28,6 +92,8 @@
     S.setPassword(a);
     S.unlock();
     err.textContent = "";
+    document.getElementById("setup-pw").value = "";
+    document.getElementById("setup-pw2").value = "";
     startPanel();
   });
 
@@ -36,28 +102,16 @@
     var err = document.getElementById("login-err");
     if (!S.checkPassword(document.getElementById("login-pw").value)) return (err.textContent = "Неверный пароль");
     err.textContent = "";
-    S.unlock();
+    document.getElementById("login-pw").value = "";
     startPanel();
   });
 
-  lockBtn.addEventListener("click", function () {
-    S.lock();
-    location.reload();
-  });
-
-  function startPanel() {
-    show(authBox, false);
-    show(panelBox, true);
-    show(lockBtn, true);
-    initPanel();
-  }
-
   /* вкладки */
-  var tabs = document.querySelectorAll(".tabs button");
+  var tabs = sheet.querySelectorAll(".tabs button");
   tabs.forEach(function (btn) {
     btn.addEventListener("click", function () {
       tabs.forEach(function (b) { b.setAttribute("aria-selected", String(b === btn)); });
-      document.querySelectorAll("[data-tabpane]").forEach(function (p) {
+      sheet.querySelectorAll("[data-tabpane]").forEach(function (p) {
         p.hidden = p.getAttribute("data-tabpane") !== btn.getAttribute("data-tab");
       });
     });
@@ -72,7 +126,7 @@
     newService();
   }
 
-  /* ---------- услуги ---------- */
+  /* услуги */
   function renderServices() {
     var all = S.get().services.slice();
     var box = document.getElementById("rowlist");
@@ -188,6 +242,18 @@
 
   document.getElementById("new-btn").addEventListener("click", newService);
 
+  function refreshPages() {
+    if (window.UI && typeof UI.closeService === "function" && !document.getElementById("service-modal").hidden) UI.closeService();
+    /* перерисовываем витрину без перезагрузки */
+    var grid = document.getElementById("services-grid");
+    if (grid) {
+      var active = S.services();
+      if (typeof UI.fill === "function") UI.fill("#services-grid", active);
+    }
+    if (window.UI && typeof UI.bindTexts === "function") UI.bindTexts();
+    if (window.UI && typeof UI.bindContacts === "function") UI.bindContacts();
+  }
+
   document.getElementById("save-btn").addEventListener("click", function () {
     var err = document.getElementById("save-err");
     if (!F.title.value.trim()) { err.textContent = "Укажите название услуги"; F.title.focus(); return; }
@@ -216,6 +282,7 @@
       show(document.getElementById("delete-btn"), true);
       renderServices();
       renderStats();
+      refreshPages();
     } catch (e) {
       err.textContent = e.message;
     }
@@ -228,6 +295,7 @@
     S.removeService(currentId);
     newService();
     renderStats();
+    refreshPages();
   });
 
   document.getElementById("upload-img").addEventListener("change", function (e) {
@@ -266,7 +334,7 @@
     });
   });
 
-  /* ---------- тексты сайта ---------- */
+  /* тексты */
   var GROUPS = [
     { name: "Главная", fields: [
       ["hero.eyebrow", "Надзаголовок"],
@@ -311,12 +379,6 @@
       ["faq.q2", "Вопрос 2"], ["faq.a2", "Ответ 2", "area"],
       ["faq.q3", "Вопрос 3"], ["faq.a3", "Ответ 3", "area"]
     ]},
-    { name: "Обо мне", fields: [
-      ["about.title", "Заголовок"],
-      ["about.text", "Основной текст", "area"],
-      ["about.approach", "Как подхожу к работе", "area"],
-      ["about.terms", "Условия", "area"]
-    ]},
     { name: "Контакты и подвал", fields: [
       ["contacts.title", "Заголовок контактов"],
       ["contacts.lead", "Текст контактов", "area"],
@@ -328,8 +390,8 @@
     var box = document.getElementById("content-form-inner");
     var values = S.textAll();
     var html = "";
-    GROUPS.forEach(function (g, gi) {
-      html += '<fieldset class="cgroup"><legend>' + UI.esc(g.name) + "</legend><div class=\"form-grid\">";
+    GROUPS.forEach(function (g) {
+      html += '<fieldset class="cgroup"><legend>' + UI.esc(g.name) + '</legend><div class="form-grid">';
       g.fields.forEach(function (f) {
         var area = f[2] === "area";
         var fid = "c-" + f[0].replace(/[^a-zA-Z0-9]+/g, "-");
@@ -353,12 +415,13 @@
     });
     S.saveContent(patch);
     var note = document.getElementById("content-note");
-    note.textContent = "Тексты сохранены. Откройте страницы сайта — значения уже заменены.";
+    note.textContent = "Тексты сохранены — на странице они уже видны.";
     note.style.color = "var(--ok)";
+    refreshPages();
     renderStats();
   });
 
-  /* ---------- настройки ---------- */
+  /* настройки */
   var SET = { shopName: "s-shop", owner: "s-owner", tg: "s-tg", avito: "s-avito", city: "s-city", email: "s-email", tagline: "s-tagline" };
 
   function fillSettings() {
@@ -375,7 +438,8 @@
     Object.keys(SET).forEach(function (k) { patch[k] = document.getElementById(SET[k]).value.trim(); });
     patch.tg = String(patch.tg || "").replace(/^@/, "");
     S.saveSettings(patch);
-    document.getElementById("settings-note").textContent = "Сохранено. Обновите страницы сайта, чтобы увидеть правки.";
+    document.getElementById("settings-note").textContent = "Сохранено — на странице уже применено.";
+    refreshPages();
   });
 
   document.getElementById("pw-form").addEventListener("submit", function (e) {
@@ -391,7 +455,7 @@
     note.textContent = "Пароль изменён.";
   });
 
-  /* ---------- публикация ---------- */
+  /* публикация */
   function download(name, text, type) {
     var blob = new Blob([text], { type: type || "text/javascript;charset=utf-8" });
     var url = URL.createObjectURL(blob);
@@ -406,7 +470,7 @@
 
   document.getElementById("export-btn").addEventListener("click", function () {
     download("data.js", S.exportData());
-    document.getElementById("io-note").textContent = "Файл data.js скачан. Замените им site/assets/js/data.js в репозитории и запушьте — правки увидят все.";
+    document.getElementById("io-note").textContent = "Файл data.js скачан. Замените им assets/js/data.js в репозитории и закоммитьте — правки увидят все.";
   });
 
   document.getElementById("export-json-btn").addEventListener("click", function () {
@@ -423,7 +487,9 @@
       try {
         var n = S.importData(reader.result);
         note.textContent = "Импортировано услуг: " + n;
-        initPanel();
+        panelReady = false;
+        startPanel();
+        refreshPages();
       } catch (err) {
         note.textContent = "Не удалось импортировать: " + err.message;
       }
@@ -436,6 +502,8 @@
     if (!confirm("Сбросить все правки и вернуть данные из data.js?")) return;
     S.reset();
     document.getElementById("io-note").textContent = "Правки сброшены.";
-    initPanel();
+    panelReady = false;
+    startPanel();
+    refreshPages();
   });
 })();

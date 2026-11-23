@@ -4,19 +4,18 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Евгений — сайты, телеграм-боты и упаковка объявлений</title>
-<meta name="description" content="Разработка сайтов, лендингов и телеграм-ботов под задачу. Черновик показываю до финальной оплаты, правки по списку бесплатно, публикация и передача доступов. Связь в Telegram @grig000jr.">
+<meta name="description" content="Разработка сайтов, лендингов и телеграм-ботов под задачу. Черновик до финальной оплаты, правки по списку бесплатно, публикация и передача доступов. Связь в Telegram @grig000jr.">
 <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
 
 <header class="site-head">
   <div class="wrap head-in">
-    <a class="brand" href="index.html"><span data-shop>ЕВГЕНИЙ</span></a>
+    <a class="brand" href="#top"><span data-shop>ЕВГЕНИЙ</span></a>
     <nav class="nav" aria-label="Основная навигация">
-      <a href="index.html">Главная</a>
-      <a href="services.html">Услуги</a>
-      <a href="about.html">Обо мне</a>
-      <a href="about.html#contacts">Контакты</a>
+      <a href="#services">Услуги</a>
+      <a href="#process">Как работаю</a>
+      <a href="#contacts">Контакты</a>
     </nav>
     <div class="head-cta">
       <a class="btn btn-ghost btn-sm" data-avito href="https://www.avito.ru/profile" target="_blank" rel="noopener">На Авито</a>
@@ -25,7 +24,7 @@
   </div>
 </header>
 
-<main>
+<main id="top">
   <section class="hero">
     <div class="wrap hero-grid">
       <div>
@@ -33,7 +32,7 @@
         <h1><span data-text="hero.title">Сайты и боты, которые</span> <em data-text="hero.accent">приводят клиентов</em></h1>
         <p class="lead" data-text="hero.lead"></p>
         <div class="hero-actions">
-          <a class="btn btn-accent" href="services.html" data-text="hero.cta1">Смотреть услуги</a>
+          <a class="btn btn-accent" href="#services" data-text="hero.cta1">Смотреть услуги</a>
           <a class="btn" data-tg data-tg-text="Здравствуйте! Пишу с сайта — хочу обсудить задачу." href="https://t.me/grig000jr" target="_blank" rel="noopener" data-text="hero.cta2">Написать в Telegram</a>
         </div>
         <div class="hero-facts">
@@ -44,26 +43,31 @@
       </div>
       <div class="hero-media">
         <img src="assets/img/svc-site.jpg" alt="Рабочее место: макет сайта на экране ноутбука" width="1000" height="800">
-        <span class="hero-tag">сначала макет — потом оплата</span>
+        <span class="hero-tag">сначала макет — потом финальная оплата</span>
       </div>
     </div>
   </section>
 
-  <section class="section">
+  <section class="section" id="services">
     <div class="wrap">
       <div class="section-head reveal">
         <div>
           <h2 data-text="services.title">Услуги</h2>
           <p data-text="services.lead"></p>
         </div>
-        <a class="link-arrow" href="services.html">Все услуги →</a>
       </div>
+
+      <div class="result-line">
+        <div class="chips" id="cat-chips"></div>
+        <span id="count">—</span>
+      </div>
+
       <div class="grid" id="services-grid"></div>
       <p class="muted" style="margin-top:16px;font-size:13.5px" data-text="services.note"></p>
     </div>
   </section>
 
-  <section class="section" style="border-top:1px solid var(--line)">
+  <section class="section" id="process" style="border-top:1px solid var(--line)">
     <div class="wrap">
       <div class="section-head reveal">
         <div>
@@ -79,7 +83,7 @@
     </div>
   </section>
 
-  <section class="section" style="padding-top:0">
+  <section class="section" id="why" style="padding-top:0">
     <div class="wrap">
       <div class="section-head reveal">
         <div>
@@ -107,7 +111,7 @@
     </div>
   </section>
 
-  <section class="section" style="padding-top:0">
+  <section class="section" id="contacts" style="padding-top:0">
     <div class="wrap split">
       <div class="panel reveal">
         <h3 data-text="contacts.title">Связаться</h3>
@@ -119,8 +123,8 @@
           <a data-avito href="https://www.avito.ru/profile" target="_blank" rel="noopener">
             <b>Авито</b><span>мои услуги →</span>
           </a>
-          <a href="about.html"><b>Обо мне</b><span>как я работаю →</span></a>
         </div>
+        <p class="form-note" style="margin-top:14px">В Telegram отвечаю быстрее. Пришлите ссылку на пример, который нравится, и пару слов о задаче — этого хватит для оценки.</p>
       </div>
       <div class="panel reveal">
         <h3 data-text="faq.title">Частые вопросы</h3>
@@ -146,37 +150,320 @@
 <footer class="site-foot">
   <div class="wrap foot-in">
     <div>
-      <a class="brand" href="index.html" style="font-size:17px"><span data-shop>ЕВГЕНИЙ</span></a>
+      <a class="brand" href="#top" style="font-size:17px"><span data-shop>ЕВГЕНИЙ</span></a>
       <p style="margin-top:8px" data-text="footer.note"></p>
     </div>
     <div class="foot-links">
-      <a href="services.html">Услуги</a>
-      <a href="about.html">Обо мне</a>
+      <a href="#services">Услуги</a>
+      <a href="#process">Как работаю</a>
       <a data-tg href="https://t.me/grig000jr" target="_blank" rel="noopener">Telegram</a>
       <a data-avito href="https://www.avito.ru/profile" target="_blank" rel="noopener">Авито</a>
-      <a href="admin.html">Админка</a>
     </div>
-    <div>© <span data-year>2026</span> <span data-shop>ЕВГЕНИЙ</span></div>
+    <button class="foot-brand" type="button" data-open-admin title="Открыть админку (Ctrl+Alt+A)">© <span data-year>2026</span> <span data-shop>ЕВГЕНИЙ</span></button>
   </div>
 </footer>
+
+<!-- карточка услуги -->
+<div class="modal" id="service-modal" hidden role="dialog" aria-modal="true" aria-labelledby="svc-title">
+  <div class="modal-card">
+    <div class="modal-head">
+      <span class="form-note" id="svc-cat"></span>
+      <button class="modal-close" type="button" data-close-svc aria-label="Закрыть">×</button>
+    </div>
+    <div id="svc-body"></div>
+  </div>
+</div>
+
+<!-- админка -->
+<div class="sheet" id="admin-sheet" hidden role="dialog" aria-modal="true" aria-label="Админка">
+  <div class="wrap">
+    <div class="sheet-top">
+      <div style="display:flex;align-items:center;gap:10px">
+        <strong>Админка</strong>
+        <span class="kbd">Ctrl + Alt + A</span>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <button class="btn btn-sm" type="button" id="lock-btn" hidden>Выйти</button>
+        <button class="modal-close" type="button" data-close-admin aria-label="Закрыть админку">×</button>
+      </div>
+    </div>
+
+    <div class="sheet-body">
+      <section id="auth" hidden>
+        <div class="panel login-card" id="setup" hidden>
+          <h3>Первый вход</h3>
+          <p class="muted" style="margin:8px 0 16px;font-size:14px">Придумайте пароль для админки. Он хранится в этом браузере.</p>
+          <form id="setup-form" class="field">
+            <label for="setup-pw">Пароль</label>
+            <input class="input" id="setup-pw" type="password" autocomplete="new-password" minlength="4" required>
+            <label for="setup-pw2" style="margin-top:12px">Повторите пароль</label>
+            <input class="input" id="setup-pw2" type="password" autocomplete="new-password" minlength="4" required>
+            <p class="form-note" id="setup-err" style="color:#ff9b9b"></p>
+            <button class="btn btn-accent" type="submit" style="margin-top:12px">Сохранить пароль и войти</button>
+          </form>
+        </div>
+
+        <div class="panel login-card" id="login" hidden>
+          <h3>Вход в админку</h3>
+          <form id="login-form" class="field" style="margin-top:14px">
+            <label for="login-pw">Пароль</label>
+            <input class="input" id="login-pw" type="password" autocomplete="current-password" required>
+            <p class="form-note" id="login-err" style="color:#ff9b9b"></p>
+            <button class="btn btn-accent" type="submit" style="margin-top:12px">Войти</button>
+          </form>
+          <p class="form-note" style="margin-top:14px">Забыли пароль? Очистите данные сайта в браузере — админка попросит задать новый, правки вернутся к data.js.</p>
+        </div>
+      </section>
+
+      <section id="panel" hidden>
+        <div class="stat" id="stats"></div>
+        <p class="hint" id="demo-hint" hidden>Сейчас сайт показывает демонстрационные данные из <b>data.js</b>. Замените услуги и тексты своими.</p>
+
+        <div class="tabs" role="tablist">
+          <button role="tab" aria-selected="true" data-tab="list">Услуги</button>
+          <button role="tab" aria-selected="false" data-tab="texts">Тексты</button>
+          <button role="tab" aria-selected="false" data-tab="settings">Настройки</button>
+          <button role="tab" aria-selected="false" data-tab="io">Публикация</button>
+        </div>
+
+        <div data-tabpane="list">
+          <div class="admin-bar">
+            <button class="btn btn-accent" type="button" id="new-btn">+ Новая услуга</button>
+            <span class="form-note">Правки сразу видны на странице. Чтобы их увидели посетители — «Публикация».</span>
+          </div>
+          <div class="admin-grid">
+            <div class="panel panel-tight">
+              <div class="rowlist" id="rowlist"></div>
+            </div>
+
+            <div class="panel" id="editor">
+              <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px">
+                <h3 id="editor-title">Новая услуга</h3>
+                <span class="form-note" id="save-note"></span>
+              </div>
+
+              <div class="form-grid">
+                <div class="field full">
+                  <label for="f-title">Название услуги</label>
+                  <input class="input" id="f-title" type="text" placeholder="Лендинг под услугу или товар">
+                </div>
+                <div class="field">
+                  <label for="f-price">Цена, ₽</label>
+                  <input class="input" id="f-price" type="number" min="0" step="1" inputmode="numeric" placeholder="25000">
+                </div>
+                <div class="field">
+                  <label for="f-pricenote">Как показывать цену</label>
+                  <select class="input" id="f-pricenote">
+                    <option value="от">от 25 000 ₽</option>
+                    <option value="">точно 25 000 ₽</option>
+                    <option value="до">до 25 000 ₽</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="f-cat">Направление</label>
+                  <input class="input" id="f-cat" type="text" list="cat-list" placeholder="Сайты">
+                  <datalist id="cat-list">
+                    <option value="Сайты"></option>
+                    <option value="Telegram-боты"></option>
+                    <option value="Авито"></option>
+                    <option value="Доработки"></option>
+                  </datalist>
+                </div>
+                <div class="field">
+                  <label for="f-term">Срок</label>
+                  <input class="input" id="f-term" type="text" placeholder="5–7 дней">
+                </div>
+                <div class="field">
+                  <label for="f-status">Статус</label>
+                  <select class="input" id="f-status">
+                    <option value="active">Показывать</option>
+                    <option value="sold">Архив (видно по ссылке)</option>
+                    <option value="draft">Черновик (скрыть)</option>
+                  </select>
+                </div>
+                <div class="field" style="justify-content:flex-end">
+                  <label for="f-featured" style="display:flex;gap:9px;align-items:center;text-transform:none;letter-spacing:0;font-family:var(--sans);font-size:14px;color:var(--text)">
+                    <input id="f-featured" type="checkbox"> Показать на главной
+                  </label>
+                </div>
+
+                <div class="field full">
+                  <label>Фотографии</label>
+                  <div class="image-list" id="f-images"></div>
+                  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
+                    <button class="btn btn-sm" type="button" id="add-img">+ Ссылка на фото</button>
+                    <label class="btn btn-sm" style="cursor:pointer">
+                      Загрузить с компьютера
+                      <input id="upload-img" type="file" accept="image/*" multiple hidden>
+                    </label>
+                  </div>
+                  <p class="form-note" id="upload-note">Можно указать путь к файлу в проекте или ссылку. Загруженные фото сжимаются до 1200 px и хранятся в браузере.</p>
+                </div>
+
+                <div class="field full">
+                  <label for="f-desc">Описание</label>
+                  <textarea class="input" id="f-desc" placeholder="Что делаете, для кого, что получает клиент."></textarea>
+                </div>
+
+                <div class="field full">
+                  <label>Что входит в услугу</label>
+                  <div class="image-list" id="f-includes"></div>
+                  <button class="btn btn-sm" type="button" id="add-inc" style="margin-top:8px">+ Пункт</button>
+                </div>
+              </div>
+
+              <p class="form-note" id="save-err" style="color:#ff9b9b;margin-top:10px"></p>
+
+              <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px">
+                <button class="btn btn-accent" type="button" id="save-btn">Сохранить</button>
+                <button class="btn btn-danger" type="button" id="delete-btn" hidden>Удалить</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div data-tabpane="texts" hidden>
+          <form class="panel" id="content-form">
+            <h3>Все тексты страницы</h3>
+            <p class="muted" style="font-size:14px;margin:6px 0 18px">Меняйте формулировки, не трогая код. Пустое поле вернёт текст из data.js.</p>
+            <div id="content-form-inner"></div>
+            <p class="form-note" id="content-note" style="margin-top:14px"></p>
+            <button class="btn btn-accent" type="submit" style="margin-top:6px">Сохранить тексты</button>
+          </form>
+        </div>
+
+        <div data-tabpane="settings" hidden>
+          <form class="panel" id="settings-form">
+            <h3>Контакты и название</h3>
+            <div class="form-grid" style="margin-top:14px">
+              <div class="field">
+                <label for="s-shop">Название в шапке</label>
+                <input class="input" id="s-shop" type="text" placeholder="ЕВГЕНИЙ">
+              </div>
+              <div class="field">
+                <label for="s-owner">Имя</label>
+                <input class="input" id="s-owner" type="text" placeholder="Евгений">
+              </div>
+              <div class="field">
+                <label for="s-tg">Telegram (без @)</label>
+                <input class="input" id="s-tg" type="text" placeholder="grig000jr">
+              </div>
+              <div class="field">
+                <label for="s-avito">Ссылка на профиль Авито</label>
+                <input class="input" id="s-avito" type="url" placeholder="https://www.avito.ru/user/…">
+              </div>
+              <div class="field">
+                <label for="s-city">Город</label>
+                <input class="input" id="s-city" type="text" placeholder="Москва">
+              </div>
+              <div class="field">
+                <label for="s-email">E-mail (необязательно)</label>
+                <input class="input" id="s-email" type="email" placeholder="you@mail.ru">
+              </div>
+              <div class="field full">
+                <label for="s-tagline">Короткое описание для себя</label>
+                <input class="input" id="s-tagline" type="text">
+              </div>
+            </div>
+            <p class="form-note" id="settings-note" style="color:var(--ok);margin-top:10px"></p>
+            <button class="btn btn-accent" type="submit" style="margin-top:10px">Сохранить настройки</button>
+          </form>
+
+          <form class="panel" id="pw-form" style="margin-top:20px;max-width:520px">
+            <h3>Сменить пароль</h3>
+            <div class="form-grid" style="margin-top:14px">
+              <div class="field">
+                <label for="new-pw">Новый пароль</label>
+                <input class="input" id="new-pw" type="password" autocomplete="new-password">
+              </div>
+              <div class="field">
+                <label for="new-pw2">Повторите</label>
+                <input class="input" id="new-pw2" type="password" autocomplete="new-password">
+              </div>
+            </div>
+            <p class="form-note" id="pw-note" style="margin-top:10px"></p>
+            <button class="btn" type="submit" style="margin-top:12px">Сменить пароль</button>
+          </form>
+        </div>
+
+        <div data-tabpane="io" hidden>
+          <div class="split">
+            <div class="panel">
+              <h3>Как сделать правки видимыми для всех</h3>
+              <ol style="margin:14px 0 0;padding-left:20px;color:var(--muted);font-size:14.5px;line-height:1.75">
+                <li>Нажмите «Скачать data.js».</li>
+                <li>Откройте папку сайта в репозитории на GitHub.</li>
+                <li>Замените файл <code class="mono">assets/js/data.js</code> скачанным.</li>
+                <li>Закоммитьте изменения — сайт обновится.</li>
+              </ol>
+              <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px">
+                <button class="btn btn-accent" type="button" id="export-btn">Скачать data.js</button>
+                <button class="btn" type="button" id="export-json-btn">Резервная копия JSON</button>
+              </div>
+              <p class="form-note" id="io-note" style="margin-top:12px"></p>
+            </div>
+
+            <div class="panel">
+              <h3>Загрузить из файла</h3>
+              <p class="muted" style="font-size:14px;margin:8px 0 14px">Подойдёт data.js или JSON-бэкап. Текущие правки в браузере будут заменены.</p>
+              <label class="btn" style="cursor:pointer">
+                Выбрать файл
+                <input id="import-file" type="file" accept=".js,.json,application/json,text/javascript" hidden>
+              </label>
+              <hr style="border:0;border-top:1px solid var(--line);margin:22px 0">
+              <h3>Сброс</h3>
+              <p class="muted" style="font-size:14px;margin:8px 0 14px">Удаляет правки из этого браузера и возвращает данные из data.js. Пароль тоже сбросится.</p>
+              <button class="btn btn-danger" type="button" id="reset-btn">Сбросить правки</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
 
 <script src="assets/js/data.js"></script>
 <script src="assets/js/store.js"></script>
 <script src="assets/js/app.js"></script>
+<script src="assets/js/admin.js"></script>
 <script>
 (function () {
-  var active = Store.services().filter(function (s) { return s.status === "active"; });
-  var featured = active.filter(function (s) { return s.featured; });
-  UI.fill("#services-grid", (featured.length ? featured : active).slice(0, 6), "Добавьте услуги в админке — они появятся здесь.");
+  var all = Store.services();
+  var grid = document.getElementById("services-grid");
+  var chips = document.getElementById("cat-chips");
+  var count = document.getElementById("count");
+  var activeCat = "";
 
-  /* подсветка кнопок под курсором */
-  document.addEventListener("pointermove", function (e) {
-    var btn = e.target.closest(".btn");
+  function render() {
+    var list = activeCat ? all.filter(function (s) { return s.category === activeCat; }) : all;
+    count.textContent = "Услуг: " + list.length;
+    UI.fill("#services-grid", list, "Добавьте услуги в админке — они появятся здесь.");
+  }
+
+  var cats = {};
+  all.forEach(function (s) { if (s.category) cats[s.category] = 1; });
+  var names = Object.keys(cats).sort();
+  chips.innerHTML = '<button class="chip" type="button" data-cat="" aria-pressed="true">Все</button>' +
+    names.map(function (c) {
+      return '<button class="chip" type="button" data-cat="' + UI.esc(c) + '" aria-pressed="false">' + UI.esc(c) + "</button>";
+    }).join("");
+
+  chips.addEventListener("click", function (e) {
+    var btn = e.target.closest("[data-cat]");
     if (!btn) return;
-    var r = btn.getBoundingClientRect();
-    btn.style.setProperty("--x", (e.clientX - r.left) + "px");
-    btn.style.setProperty("--y", (e.clientY - r.top) + "px");
+    activeCat = btn.getAttribute("data-cat");
+    chips.querySelectorAll(".chip").forEach(function (b) { b.setAttribute("aria-pressed", String(b === btn)); });
+    render();
   });
+
+  grid.addEventListener("click", function (e) {
+    var card = e.target.closest("[data-service]");
+    if (!card) return;
+    UI.openService(card.getAttribute("data-service"), all);
+  });
+
+  /// уменьшаем задержку появления после фильтра
+  render();
 })();
 </script>
 </body>

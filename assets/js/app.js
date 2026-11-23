@@ -12,9 +12,8 @@
   function cover(s) { return (s.images && s.images[0]) || "assets/img/svc-site.jpg"; }
 
   function serviceCard(s) {
-    var sold = s.status === "sold";
     return (
-      '<a class="card reveal" href="service.html?id=' + encodeURIComponent(s.id) + '">' +
+      '<button type="button" class="card reveal" data-service="' + esc(s.id) + '">' +
         '<div class="card-media">' +
           '<img src="' + esc(cover(s)) + '" alt="' + esc(s.title) + '">' +
           (s.featured ? '<span class="badge hot">Хит</span>' : "") +
@@ -26,7 +25,7 @@
           '<div class="price">' + esc(S.priceLine(s)) + "</div>" +
           '<span class="card-note">' + (s.category === "Авито" ? "Упаковка объявлений" : "Срок: " + esc(s.term || "по задаче")) + "</span>" +
         "</div>" +
-      "</a>"
+      "</button>"
     );
   }
 
@@ -164,10 +163,86 @@
     observe();
   });
 
+  /* ---------- карточка услуги в модалке ---------- */
+  var lastFocus = null;
+
+  function closeService() {
+    var modal = document.getElementById("service-modal");
+    if (!modal || modal.hidden) return;
+    modal.classList.remove("open");
+    setTimeout(function () {
+      modal.hidden = true;
+      document.body.classList.remove("modal-open");
+    }, reduce ? 0 : 180);
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+
+  function openService(id, list) {
+    var modal = document.getElementById("service-modal");
+    var s = S.find(id);
+    if (!modal || !s) return;
+    var st = S.settings();
+    var tgn = String(st.tg || "grig000jr").replace(/^@/, "");
+    var msg = "Здравствуйте! Интересует услуга «" + s.title + "» (" + S.priceLine(s) + ") с сайта.";
+    var includes = (s.includes || []).map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("");
+    var images = (s.images && s.images.length ? s.images : [cover(s)]);
+    var thumbs = images.length > 1
+      ? '<div class="gallery-thumbs" id="svc-thumbs">' + images.map(function (src, i) {
+          return '<button type="button" aria-pressed="' + (i === 0) + '" data-src="' + esc(src) + '"><img src="' + esc(src) + '" alt="Фото ' + (i + 1) + '"></button>';
+        }).join("") + "</div>"
+      : "";
+
+    document.getElementById("svc-cat").textContent = s.category || "Услуга";
+    document.getElementById("svc-body").innerHTML =
+      '<div class="svc">' +
+        '<div class="svc-media"><img id="svc-main" src="' + esc(images[0]) + '" alt="' + esc(s.title) + '">' + thumbs + "</div>" +
+        "<div>" +
+          '<h3 id="svc-title">' + esc(s.title) + "</h3>" +
+          '<div class="price">' + (s.priceNote ? '<span class="price-note">' + esc(s.priceNote) + "</span> " : "") + S.money(s.price) + "</div>" +
+          '<div class="meta-row"><span class="meta">Срок: ' + esc(s.term || "по задаче") + '</span><span class="meta">Работа по предоплате</span></div>' +
+          '<div class="item-actions">' +
+            '<a class="btn btn-accent" href="' + S.tg(tgn, msg) + '" target="_blank" rel="noopener">Обсудить в Telegram</a>' +
+            '<a class="btn" href="' + esc(st.avito || "https://www.avito.ru/profile") + '" target="_blank" rel="noopener">Смотреть на Авито</a>' +
+          "</div>" +
+          '<div class="desc">' + esc(s.description || "Описание не заполнено.") + "</div>" +
+          (includes ? '<ul class="includes">' + includes + "</ul>" : "") +
+        "</div>" +
+      "</div>";
+
+    var thumbsBox = document.getElementById("svc-thumbs");
+    if (thumbsBox) {
+      thumbsBox.addEventListener("click", function (e) {
+        var btn = e.target.closest("button[data-src]");
+        if (!btn) return;
+        document.getElementById("svc-main").src = btn.getAttribute("data-src");
+        thumbsBox.querySelectorAll("button").forEach(function (b) { b.setAttribute("aria-pressed", String(b === btn)); });
+      });
+    }
+
+    lastFocus = document.activeElement;
+    modal.hidden = false;
+    document.body.classList.add("modal-open");
+    requestAnimationFrame(function () { modal.classList.add("open"); });
+    var closeBtn = modal.querySelector("[data-close-svc]");
+    if (closeBtn) closeBtn.focus();
+  }
+
+  document.addEventListener("click", function (e) {
+    var modal = document.getElementById("service-modal");
+    if (!modal) return;
+    if (e.target === modal || e.target.closest("[data-close-svc]")) closeService();
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key !== "Escape") return;
+    var modal = document.getElementById("service-modal");
+    if (modal && !modal.hidden) closeService();
+  });
+
   window.UI = {
     esc: esc, card: serviceCard, fill: fill, cover: cover, bindTexts: bindTexts,
     bindContacts: bindContacts, initNav: initNav, gallery: gallery, query: query,
     contacts: contacts, reveal: observe, money: function (n) { return S.money(n); },
-    text: function (k) { return S.text(k); }
+    text: function (k) { return S.text(k); }, openService: openService, closeService: closeService
   };
 })();
