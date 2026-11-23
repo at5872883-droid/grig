@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Услуги — Евгений</title>
+<meta name="description" content="Сайты визитки, лендинги, магазины, телеграм-боты, упаковка объявлений на Авито и доработки. Цены от, сроки и что входит.">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="site-head">
+  <div class="wrap head-in">
+    <a class="brand" href="index.html"><span data-shop>ЕВГЕНИЙ</span></a>
+    <nav class="nav" aria-label="Основная навигация">
+      <a href="index.html">Главная</a>
+      <a href="services.html">Услуги</a>
+      <a href="about.html">Обо мне</a>
+      <a href="about.html#contacts">Контакты</a>
+    </nav>
+    <div class="head-cta">
+      <a class="btn btn-ghost btn-sm" data-avito href="https://www.avito.ru/profile" target="_blank" rel="noopener">На Авито</a>
+      <a class="btn btn-accent btn-sm" data-tg href="https://t.me/grig000jr" target="_blank" rel="noopener">Написать в Telegram</a>
+    </div>
+  </div>
+</header>
+
+<main class="section">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div>
+        <h2 data-text="services.title">Услуги</h2>
+        <p data-text="services.lead"></p>
+      </div>
+    </div>
+
+    <div class="toolbar">
+      <div class="field">
+        <label for="q">Поиск</label>
+        <input class="input" id="q" type="search" placeholder="Например: лендинг, бот, правки" autocomplete="off">
+      </div>
+      <div class="field">
+        <label for="cat">Направление</label>
+        <select class="input" id="cat"><option value="">Все</option></select>
+      </div>
+      <div class="field">
+        <label for="sort">Цена</label>
+        <select class="input" id="sort">
+          <option value="default">По порядку</option>
+          <option value="cheap">Сначала дешёвые</option>
+          <option value="expensive">Сначала дорогие</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="term">Срок</label>
+        <select class="input" id="term"><option value="">Любой</option></select>
+      </div>
+    </div>
+
+    <div class="result-line">
+      <span id="count">—</span>
+      <a class="link-arrow" data-tg data-tg-text="Здравствуйте! Не нашёл нужную услугу — расскажу задачу." href="https://t.me/grig000jr" target="_blank" rel="noopener">Нужно другое? Напишите →</a>
+    </div>
+
+    <div class="grid" id="list"></div>
+    <p class="muted" style="margin-top:18px;font-size:13.5px" data-text="services.note"></p>
+  </div>
+</main>
+
+<footer class="site-foot">
+  <div class="wrap foot-in">
+    <div>
+      <a class="brand" href="index.html" style="font-size:17px"><span data-shop>ЕВГЕНИЙ</span></a>
+      <p style="margin-top:8px" data-text="footer.note"></p>
+    </div>
+    <div class="foot-links">
+      <a href="index.html">Главная</a>
+      <a href="about.html">Обо мне</a>
+      <a data-tg href="https://t.me/grig000jr" target="_blank" rel="noopener">Telegram</a>
+      <a data-avito href="https://www.avito.ru/profile" target="_blank" rel="noopener">Авито</a>
+      <a href="admin.html">Админка</a>
+    </div>
+    <div>© <span data-year>2026</span> <span data-shop>ЕВГЕНИЙ</span></div>
+  </div>
+</footer>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/store.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+(function () {
+  var all = Store.services();
+  var q = document.getElementById("q");
+  var cat = document.getElementById("cat");
+  var sort = document.getElementById("sort");
+  var term = document.getElementById("term");
+
+  function uniq(field) {
+    var seen = {};
+    all.forEach(function (s) { if (s[field]) seen[s[field]] = 1; });
+    return Object.keys(seen).sort();
+  }
+  uniq("category").forEach(function (c) {
+    cat.insertAdjacentHTML("beforeend", '<option value="' + UI.esc(c) + '">' + UI.esc(c) + "</option>");
+  });
+  uniq("term").forEach(function (t) {
+    term.insertAdjacentHTML("beforeend", '<option value="' + UI.esc(t) + '">' + UI.esc(t) + "</option>");
+  });
+
+  var preset = UI.query("cat");
+  if (preset) cat.value = preset;
+
+  function render() {
+    var needle = q.value.trim().toLowerCase();
+    var list = all.filter(function (s) {
+      if (cat.value && s.category !== cat.value) return false;
+      if (term.value && s.term !== term.value) return false;
+      if (needle) {
+        var hay = (s.title + " " + s.description + " " + (s.category || "") + " " + (s.includes || []).join(" ")).toLowerCase();
+        if (hay.indexOf(needle) === -1) return false;
+      }
+      return true;
+    });
+    if (sort.value === "cheap") list.sort(function (a, b) { return a.price - b.price; });
+    else if (sort.value === "expensive") list.sort(function (a, b) { return b.price - a.price; });
+
+    document.getElementById("count").textContent = "Услуг: " + list.length;
+    UI.fill("#list", list, "Под эти условия ничего не подошло. Сбросьте фильтры или напишите в Telegram — предложу вариант.");
+  }
+
+  [q, cat, sort, term].forEach(function (el) {
+    el.addEventListener("input", render);
+    el.addEventListener("change", render);
+  });
+  render();
+})();
+</script>
+</body>
+</html>

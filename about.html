@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Обо мне — Евгений</title>
+<meta name="description" content="Кто делает сайты и ботов, как проходит работа, условия оплаты и правок. Контакты: Telegram @grig000jr и Авито.">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="site-head">
+  <div class="wrap head-in">
+    <a class="brand" href="index.html"><span data-shop>ЕВГЕНИЙ</span></a>
+    <nav class="nav" aria-label="Основная навигация">
+      <a href="index.html">Главная</a>
+      <a href="services.html">Услуги</a>
+      <a href="about.html">Обо мне</a>
+      <a href="about.html#contacts">Контакты</a>
+    </nav>
+    <div class="head-cta">
+      <a class="btn btn-ghost btn-sm" data-avito href="https://www.avito.ru/profile" target="_blank" rel="noopener">На Авито</a>
+      <a class="btn btn-accent btn-sm" data-tg href="https://t.me/grig000jr" target="_blank" rel="noopener">Написать в Telegram</a>
+    </div>
+  </div>
+</header>
+
+<main class="section">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div>
+        <h2 data-text="about.title">Обо мне</h2>
+        <p>Разработка сайтов и телеграм-ботов · частные заказы</p>
+      </div>
+    </div>
+
+    <div class="split">
+      <div class="panel reveal">
+        <span class="eyebrow">Кто делает</span>
+        <h3 id="owner-name">Евгений</h3>
+        <p class="muted" style="margin-top:10px" data-text="about.text"></p>
+        <p class="muted" style="margin-top:12px" data-text="about.approach"></p>
+        <div class="meta-row" id="about-meta"></div>
+      </div>
+      <div class="panel reveal">
+        <h3>Условия работы</h3>
+        <p class="muted" style="margin-top:10px" data-text="about.terms"></p>
+        <ul class="includes" style="border-top:0;padding-top:0">
+          <li>Цена и срок — до начала работы</li>
+          <li>Демо-ссылка до финальной оплаты</li>
+          <li>Исходники и доступы передаю вам</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap section" id="contacts" style="padding-bottom:0">
+    <div class="section-head reveal">
+      <div>
+        <h2 data-text="contacts.title">Связаться</h2>
+        <p data-text="contacts.lead"></p>
+      </div>
+    </div>
+    <div class="split">
+      <div class="panel reveal">
+        <h3>Где написать</h3>
+        <div class="contact-list">
+          <a data-tg data-tg-text="Здравствуйте! Пишу с сайта по поводу услуги." href="https://t.me/grig000jr" target="_blank" rel="noopener">
+            <b>Telegram</b><span>@grig000jr →</span>
+          </a>
+          <a data-avito href="https://www.avito.ru/profile" target="_blank" rel="noopener">
+            <b>Авито</b><span>мои услуги →</span>
+          </a>
+        </div>
+        <p class="form-note" style="margin-top:14px">В Telegram отвечаю быстрее. Пришлите ссылку на пример, который нравится, и пару слов о задаче — этого хватит для оценки.</p>
+      </div>
+      <div class="panel reveal">
+        <h3 data-text="faq.title">Частые вопросы</h3>
+        <div class="faq" style="margin-top:12px">
+          <details open>
+            <summary data-text="faq.q1"></summary>
+            <p data-text="faq.a1"></p>
+          </details>
+          <details>
+            <summary data-text="faq.q2"></summary>
+            <p data-text="faq.a2"></p>
+          </details>
+          <details>
+            <summary data-text="faq.q3"></summary>
+            <p data-text="faq.a3"></p>
+          </details>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="site-foot">
+  <div class="wrap foot-in">
+    <div>
+      <a class="brand" href="index.html" style="font-size:17px"><span data-shop>ЕВГЕНИЙ</span></a>
+      <p style="margin-top:8px" data-text="footer.note"></p>
+    </div>
+    <div class="foot-links">
+      <a href="index.html">Главная</a>
+      <a href="services.html">Услуги</a>
+      <a data-tg href="https://t.me/grig000jr" target="_blank" rel="noopener">Telegram</a>
+      <a data-avito href="https://www.avito.ru/profile" target="_blank" rel="noopener">Авито</a>
+      <a href="admin.html">Админка</a>
+    </div>
+    <div>© <span data-year>2026</span> <span data-shop>ЕВГЕНИЙ</span></div>
+  </div>
+</footer>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/store.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+(function () {
+  var st = Store.settings();
+  document.getElementById("owner-name").textContent = st.owner || "Евгений";
+  document.getElementById("about-meta").innerHTML =
+    (st.city ? '<span class="meta">' + UI.esc(st.city) + "</span>" : "") +
+    '<span class="meta">Авито</span>' +
+    '<span class="meta">Онлайн по России</span>';
+})();
+</script>
+</body>
+</html>
